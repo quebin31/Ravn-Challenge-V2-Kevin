@@ -20,8 +20,15 @@ class MainActivity : AppCompatActivity() {
             .build()
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mLoadingComp = findViewById(R.id.loadingComponent)
+        mPeopleRecyclerView = findViewById(R.id.peopleRecyclerView)
+        mPeopleListAdapter = PeopleAdapter(this, mPeopleList)
+        mPeopleRecyclerView.adapter = mPeopleListAdapter
+        mPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 }
