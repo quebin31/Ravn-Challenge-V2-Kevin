@@ -1,0 +1,17 @@
+query AllPeoplePaginated($first: Int!, $after: String) {
+    allPeople(first: $first, after: $after) {
+        people {
+            id
+            name,
+            species {
+                name
+            }
+            homeworld {
+                name
+            }
+        }
+        pageInfo {
+            endCursor
+        }
+    }
+}
