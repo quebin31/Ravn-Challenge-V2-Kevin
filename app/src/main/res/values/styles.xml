@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Headline2Default">
+        <item name="android:textColor">@color/black_100</item>
+        <item name="android:textSize">17pt</item>
+    </style>
+
+    <style name="Headline2LowEmphasis">
+        <item name="android:textColor">@color/black_30</item>
+        <item name="android:textSize">17pt</item>
+    </style>
+
+    <style name="Headline2HighEmphasis">
+        <item name="android:textColor">@color/text_emphasis</item>
+        <item name="android:textSize">17pt</item>
+    </style>
+
+    <style name="Paragraph1Default">
+        <item name="android:textColor">@color/black_100</item>
+        <item name="android:textSize">14pt</item>   
+    </style>
+    
+    <style name="Paragraph1LowEmphasis">
+        <item name="android:textColor">@color/black_50</item>
+        <item name="android:textSize">14pt</item>
+    </style>
+</resources>
