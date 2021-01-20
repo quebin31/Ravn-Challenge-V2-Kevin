@@ -76,7 +76,7 @@ class PersonActivity : AppCompatActivity() {
 
         val person = response.data?.person
         if (person == null || response.hasErrors()) {
-            runOnUiThread() { showLoadError() }
+            runOnUiThread { showLoadError() }
             return@coroutineScope
         }
 
