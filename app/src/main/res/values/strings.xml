@@ -6,4 +6,8 @@
     <string name="vehicles">Vehicles</string>
     <string name="failed_data">Failed to Load Data</string>
     <string name="person_footer">"%1$s from %2$s"</string>
+    <string name="eye_color">Eye Color</string>
+    <string name="hair_color">Hair Color</string>
+    <string name="skin_color">Skin Color</string>
+    <string name="birth_year">Birth Year</string>
 </resources>
