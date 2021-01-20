@@ -86,10 +86,12 @@ class PersonActivity : AppCompatActivity() {
             .addAll(person.vehicleConnection?.vehicles?.filterNotNull()?: emptyList())
 
         runOnUiThread {
+            // Add data to "General Information" layout
             addItemDataView(getString(R.string.eye_color), person.eyeColor ?: "Unknown")
             addItemDataView(getString(R.string.hair_color), person.hairColor ?: "Unknown")
             addItemDataView(getString(R.string.skin_color), person.skinColor ?: "Unknown")
             addItemDataView(getString(R.string.birth_year), person.birthYear ?: "Unknown")
+            // Notify changes to the vehicles adapter
             mVehiclesListAdapter.notifyDataSetChanged()
             mLoadingComponent.hide()
         }
