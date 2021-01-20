@@ -2,26 +2,26 @@
 <resources>
     <style name="Headline2Default">
         <item name="android:textColor">@color/black_100</item>
-        <item name="android:textSize">17pt</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="Headline2LowEmphasis">
         <item name="android:textColor">@color/black_30</item>
-        <item name="android:textSize">17pt</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="Headline2HighEmphasis">
         <item name="android:textColor">@color/text_emphasis</item>
-        <item name="android:textSize">17pt</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="Paragraph1Default">
         <item name="android:textColor">@color/black_100</item>
-        <item name="android:textSize">14pt</item>   
+        <item name="android:textSize">14sp</item>
     </style>
     
     <style name="Paragraph1LowEmphasis">
         <item name="android:textColor">@color/black_50</item>
-        <item name="android:textSize">14pt</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>
