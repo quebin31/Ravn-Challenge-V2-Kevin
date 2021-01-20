@@ -58,7 +58,7 @@ class PersonActivity : AppCompatActivity() {
     private fun addItemDataView(key: String, value: String) {
         val view = layoutInflater.inflate(R.layout.item_data, mKeyValueLayout, false)
         view.findViewById<TextView>(R.id.dataKey).text = key
-        view.findViewById<TextView>(R.id.dataValue).text = value.capitalize(Locale.getDefault())
+        view.findViewById<TextView>(R.id.dataValue).text = value.customCapitalize(Locale.getDefault())
         mKeyValueLayout.addView(view)
     }
 
