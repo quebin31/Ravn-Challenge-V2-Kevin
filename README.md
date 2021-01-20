@@ -14,7 +14,7 @@ Either use an emulated device or a physical device connected through USB with AD
 ### Preview
 ![demo preview](demo/demo.gif)
 
-<sub>**Note:** Loading time of items is purposely increased to *5 seconds* each 5 items.</sub>
+<sub>**Note:** Each *5 seconds* (mock time) there are 5 new items.</sub>
 
 ### License
 This project is licensed under the MIT License.
