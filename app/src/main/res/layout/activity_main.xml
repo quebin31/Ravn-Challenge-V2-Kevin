@@ -21,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
-        <include
+        <co.ravn.kevin.peopleofstarwars.components.LoadingComponent
+            android:id="@+id/loadingComponent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            layout="@layout/comp_loading" />
+            android:layout_marginBottom="16dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

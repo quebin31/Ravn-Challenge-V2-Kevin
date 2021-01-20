@@ -10,6 +10,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
+        <co.ravn.kevin.peopleofstarwars.components.LoadingComponent
+            android:id="@+id/loadingComponent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="16dp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,11 +24,11 @@
             android:layout_marginStart="16dp"
             style="@style/Headline2Default" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/generalInfoRecyclerView"
+        <LinearLayout
+            android:id="@+id/keyValueLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
+            android:orientation="vertical" />
 
         <Space
             android:layout_width="match_parent"
