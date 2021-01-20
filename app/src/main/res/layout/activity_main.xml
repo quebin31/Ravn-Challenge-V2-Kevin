@@ -21,6 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
-        <include layout="@layout/comp_loading" />
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            layout="@layout/comp_loading" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
