@@ -1,17 +1,15 @@
 package co.ravn.kevin.peopleofstarwars
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.view.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.ravn.kevin.AllPeoplePaginatedQuery
 import co.ravn.kevin.peopleofstarwars.adapters.PeopleAdapter
+import co.ravn.kevin.peopleofstarwars.components.LoadingComponent
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.await
@@ -27,11 +25,10 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    private lateinit var mLoadingComp: LinearLayout
+    private lateinit var mLoadingComponent: LoadingComponent
     private lateinit var mPeopleRecyclerView: RecyclerView
     private lateinit var mPeopleListAdapter: PeopleAdapter
 
-    private var mIsLoadingData = true
     private var mPeopleList = mutableListOf<AllPeoplePaginatedQuery.Person>()
     private var mCurrEndCursor: String? = null
     private val mApolloClient = ApolloClient.builder()
@@ -43,12 +40,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mLoadingComp = findViewById(R.id.loadingComponent)
+        mLoadingComponent = findViewById(R.id.loadingComponent)
         mPeopleRecyclerView = findViewById(R.id.peopleRecyclerView)
         mPeopleListAdapter = PeopleAdapter(this, mPeopleList)
+        mPeopleListAdapter.onItemClickListener { person ->
+            launchPersonInfoActivity(person.id)
+        }
+
         mPeopleRecyclerView.adapter = mPeopleListAdapter
         mPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        mLoadingComponent.show()
         lifecycleScope.launch {
             Log.d(TAG, "onCreate: Getting data")
             getAllPeople()
@@ -56,41 +58,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoadError() {
-        mLoadingComp[0].visibility = View.GONE
-
-        val loadingTextView = mLoadingComp[1] as TextView
-        loadingTextView.visibility = View.VISIBLE
-        loadingTextView.text = resources.getText(R.string.failed_data)
-        loadingTextView.setTextColor(resources.getColor(R.color.text_emphasis))
-
-        mIsLoadingData = false
-    }
-
-    private fun showLoadingAnimation() {
-        mLoadingComp[0].visibility = View.VISIBLE
-
-        val loadingTextView = mLoadingComp[1] as TextView
-        loadingTextView.visibility = View.VISIBLE
-        loadingTextView.text = resources.getText(R.string.failed_data)
-        loadingTextView.setTextColor(resources.getColor(R.color.black_50))
-
-        mIsLoadingData = true
-
-    }
-
-    private fun hideLoadingAnimation() {
-        mLoadingComp[0].visibility = View.GONE
-        mLoadingComp[1].visibility = View.GONE
-
-        mIsLoadingData = false
+        mLoadingComponent.error(resources.getString(R.string.failed_data))
     }
 
     @ExperimentalTime
-    suspend fun getAllPeople(): Unit = coroutineScope {
-        runOnUiThread {
-            if (!mIsLoadingData) showLoadingAnimation()
-        }
-
+    private suspend fun getAllPeople(): Unit = coroutineScope {
         val response = try {
             mApolloClient
                     .query(AllPeoplePaginatedQuery(first = 5, Input.optional(mCurrEndCursor)))
@@ -109,15 +81,12 @@ class MainActivity : AppCompatActivity() {
 
         // Is `people` empty? Stop getting data
         if (allPeople.people?.isEmpty() != false) {
-            runOnUiThread { hideLoadingAnimation() }
+            runOnUiThread { mLoadingComponent.hide() }
             return@coroutineScope
         }
 
         val lastIndex = mPeopleList.size
-        for (person in allPeople.people) {
-            if (person != null)
-                mPeopleList.add(person)
-        }
+        mPeopleList.addAll(allPeople.people.filterNotNull())
 
         runOnUiThread {
             mPeopleListAdapter.notifyItemRangeInserted(lastIndex, 5)
@@ -131,5 +100,11 @@ class MainActivity : AppCompatActivity() {
         mCurrEndCursor = allPeople.pageInfo.endCursor
         delay(5.seconds)
         getAllPeople()
+    }
+
+    private fun launchPersonInfoActivity(id: String) {
+        val intent = Intent(this,  PersonActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 }
