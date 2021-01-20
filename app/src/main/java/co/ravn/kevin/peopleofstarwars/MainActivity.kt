@@ -19,6 +19,8 @@ import com.apollographql.apollo.exception.ApolloException
 import kotlinx.coroutines.*
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.seconds
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    @ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         mPeopleRecyclerView.layoutManager = LinearLayoutManager(this)
 
         lifecycleScope.launch {
+            Log.d(TAG, "onCreate: Getting data")
             getAllPeople()
         }
     }
@@ -83,6 +87,7 @@ class MainActivity : AppCompatActivity() {
         mIsLoadingData = false
     }
 
+    @ExperimentalTime
     suspend fun getAllPeople(): Unit = coroutineScope {
         runOnUiThread {
             if (!mIsLoadingData) showLoadingAnimation()
@@ -105,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Is `people` empty? Stop getting data
-        if (allPeople.people?.isNotEmpty() != false) {
+        if (allPeople.people?.isEmpty() != false) {
             runOnUiThread { hideLoadingAnimation() }
             return@coroutineScope
         }
@@ -116,12 +121,13 @@ class MainActivity : AppCompatActivity() {
                 mPeopleList.add(person)
         }
 
-        Log.d(TAG, "getAllPeople: ${mPeopleList}")
-
         runOnUiThread {
             mPeopleListAdapter.notifyItemRangeInserted(lastIndex, 5)
         }
 
+        mCurrEndCursor = allPeople.pageInfo.endCursor
+
+        delay(5.seconds)
         getAllPeople()
     }
 }
