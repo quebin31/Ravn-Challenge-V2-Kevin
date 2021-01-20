@@ -12,6 +12,7 @@ import co.ravn.kevin.PersonInformationQuery
 import co.ravn.kevin.peopleofstarwars.adapters.VehiclesAdapter
 import co.ravn.kevin.peopleofstarwars.components.LoadingComponent
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import kotlinx.coroutines.coroutineScope
@@ -27,15 +28,18 @@ class PersonActivity : AppCompatActivity() {
     private lateinit var mKeyValueLayout: LinearLayout
     private lateinit var mVehiclesRecyclerView: RecyclerView
     private lateinit var mVehiclesListAdapter: VehiclesAdapter
+    private lateinit var mApolloClient: ApolloClient
 
     private var mVehiclesList = mutableListOf<PersonInformationQuery.Vehicle>()
-    private val mApolloClient = ApolloClient.builder()
-        .serverUrl("https://swapi-graphql.netlify.app/.netlify/functions/index")
-        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person)
+
+        mApolloClient = ApolloClient.builder()
+            .serverUrl(API_ENDPOINT)
+            .normalizedCache(SqlNormalizedCacheFactory(this, "apollo.db"))
+            .build()
 
         mLoadingComponent = findViewById(R.id.loadingComponent)
         mKeyValueLayout = findViewById(R.id.keyValueLayout)

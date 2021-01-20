@@ -11,3 +11,5 @@ fun String.customCapitalize(locale: Locale): String {
         }
     }
 }
+
+const val API_ENDPOINT = "https://swapi-graphql.netlify.app/.netlify/functions/index"

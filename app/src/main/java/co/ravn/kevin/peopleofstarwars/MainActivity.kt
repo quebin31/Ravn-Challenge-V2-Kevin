@@ -12,6 +12,7 @@ import co.ravn.kevin.peopleofstarwars.adapters.PeopleAdapter
 import co.ravn.kevin.peopleofstarwars.components.LoadingComponent
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
+import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import kotlinx.coroutines.*
@@ -28,17 +29,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mLoadingComponent: LoadingComponent
     private lateinit var mPeopleRecyclerView: RecyclerView
     private lateinit var mPeopleListAdapter: PeopleAdapter
+    private lateinit var mApolloClient: ApolloClient
 
     private var mPeopleList = mutableListOf<AllPeoplePaginatedQuery.Person>()
     private var mCurrEndCursor: String? = null
-    private val mApolloClient = ApolloClient.builder()
-            .serverUrl("https://swapi-graphql.netlify.app/.netlify/functions/index")
-            .build()
 
     @ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mApolloClient = ApolloClient.builder()
+            .serverUrl(API_ENDPOINT)
+            .normalizedCache(SqlNormalizedCacheFactory(this, "apollo.db"))
+            .build()
 
         mLoadingComponent = findViewById(R.id.loadingComponent)
         mPeopleRecyclerView = findViewById(R.id.peopleRecyclerView)
