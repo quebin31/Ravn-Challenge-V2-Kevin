@@ -11,8 +11,10 @@ git clone https://github.com/quebin31/Ravn-Challenge-V2-Kevin
 ### Running 
 Either use an emulated device or a physical device connected through USB with ADB enabled.
 
-### Screenshots
+### Preview
+![demo preview](demo/demo.gif)
 
+<sub>**Note:** Loading time of items is purposely increased to *5 seconds* each 5 items.</sub>
 
 ### License
 This project is licensed under the MIT License.
