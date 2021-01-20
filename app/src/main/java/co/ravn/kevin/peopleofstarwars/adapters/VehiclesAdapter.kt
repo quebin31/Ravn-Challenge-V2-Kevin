@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.ravn.kevin.PersonInformationQuery
 import co.ravn.kevin.peopleofstarwars.R
 
-class VehicleAdapter(context: Context, vehicleList: MutableList<PersonInformationQuery.Vehicle>): RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder>() {
+class VehiclesAdapter(context: Context, vehicleList: MutableList<PersonInformationQuery.Vehicle>): RecyclerView.Adapter<VehiclesAdapter.VehicleViewHolder>() {
     class VehicleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val key: TextView = itemView.findViewById(R.id.dataKey)
 
@@ -24,7 +24,7 @@ class VehicleAdapter(context: Context, vehicleList: MutableList<PersonInformatio
     private val mInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder {
-        val mItemView = mInflater.inflate(R.layout.item_person, parent, false)
+        val mItemView = mInflater.inflate(R.layout.item_data, parent, false)
         return VehicleViewHolder(mItemView)
     }
 
