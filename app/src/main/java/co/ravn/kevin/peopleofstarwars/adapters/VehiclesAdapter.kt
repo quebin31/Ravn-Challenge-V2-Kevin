@@ -15,8 +15,7 @@ class VehiclesAdapter(context: Context, vehicleList: MutableList<PersonInformati
 
         init {
             // Remove `value` TextView from layout
-            val value: TextView = itemView.findViewById(R.id.dataValue)
-            value.visibility = View.GONE
+            itemView.findViewById<TextView>(R.id.dataValue).visibility = View.GONE
         }
     }
 
