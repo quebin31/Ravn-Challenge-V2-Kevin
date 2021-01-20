@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
             .serverUrl("https://swapi-graphql.netlify.app/.netlify/functions/index")
             .build()
 
-
-
     @ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,8 +123,12 @@ class MainActivity : AppCompatActivity() {
             mPeopleListAdapter.notifyItemRangeInserted(lastIndex, 5)
         }
 
-        mCurrEndCursor = allPeople.pageInfo.endCursor
+        // This could happen and given that `mCurrEndCursor` can be null
+        // setting this to `null` again would populate the list with repeated items.
+        if (allPeople.pageInfo.endCursor == null)
+            return@coroutineScope
 
+        mCurrEndCursor = allPeople.pageInfo.endCursor
         delay(5.seconds)
         getAllPeople()
     }
