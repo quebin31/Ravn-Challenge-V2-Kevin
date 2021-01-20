@@ -51,7 +51,7 @@ class PersonActivity : AppCompatActivity() {
                 getPersonInformation(id)
             }
         } else {
-            finish()
+            mLoadingComponent.error(getString(R.string.failed_data))
         }
     }
 
