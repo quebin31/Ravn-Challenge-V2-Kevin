@@ -22,15 +22,17 @@
 
             <TextView
                 android:id="@+id/personName"
+                style="@style/Headline2Default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Headline2Default" />
+                tools:text="Luke Skywalker" />
 
             <TextView
                 android:id="@+id/personFooter"
+                style="@style/Paragraph1LowEmphasis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Paragraph1LowEmphasis" />
+                tools:text="Human from Tatooine" />
         </LinearLayout>
 
         <Space

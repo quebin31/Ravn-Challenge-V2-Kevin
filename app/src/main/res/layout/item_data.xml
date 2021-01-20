@@ -15,10 +15,11 @@
 
         <TextView
             android:id="@+id/dataKey"
+            style="@style/Headline2LowEmphasis"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/Headline2LowEmphasis"/>
+            tools:text="@string/eye_color" />
 
         <Space
             android:layout_width="16dp"
@@ -26,12 +27,13 @@
 
         <TextView
             android:id="@+id/dataValue"
+            style="@style/Headline2Default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
             android:paddingEnd="16dp"
-            style="@style/Headline2Default" />
+            android:textAlignment="textEnd"
+            tools:text="Blue" />
     </LinearLayout>
 
     <View
