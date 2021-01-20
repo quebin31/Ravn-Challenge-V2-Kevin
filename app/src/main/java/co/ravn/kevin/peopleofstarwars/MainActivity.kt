@@ -53,7 +53,20 @@ class MainActivity : AppCompatActivity() {
         mLoadingComponent.show()
         lifecycleScope.launch {
             Log.d(TAG, "onCreate: Getting data")
-            getAllPeople()
+
+            while (true) {
+                val result = try {
+                    getAllPeople()
+                } catch (e: Exception) {
+                    Log.d(TAG, "onCreate: Getting data failure $e")
+                    break
+                }
+
+                when (result) {
+                    LoadResult.Empty -> break
+                    LoadResult.Successful -> delay(5.seconds)
+                }
+            }
         }
     }
 
@@ -61,28 +74,32 @@ class MainActivity : AppCompatActivity() {
         mLoadingComponent.error(resources.getString(R.string.failed_data))
     }
 
-    @ExperimentalTime
-    private suspend fun getAllPeople(): Unit = coroutineScope {
+    private enum class LoadResult {
+        Empty,
+        Successful
+    }
+
+    private suspend fun getAllPeople(): LoadResult = coroutineScope {
         val response = try {
             mApolloClient
                     .query(AllPeoplePaginatedQuery(first = 5, Input.optional(mCurrEndCursor)))
                     .await()
         } catch (e: ApolloException) {
             runOnUiThread { showLoadError() }
-            return@coroutineScope
+            throw e
         }
 
         val allPeople = response.data?.allPeople
         // Check data and errors
         if (allPeople == null || response.hasErrors()) {
             runOnUiThread { showLoadError() }
-            return@coroutineScope
+            throw Exception("Failed to get data from endpoint")
         }
 
         // Is `people` empty? Stop getting data
         if (allPeople.people?.isEmpty() != false) {
             runOnUiThread { mLoadingComponent.hide() }
-            return@coroutineScope
+            return@coroutineScope LoadResult.Empty
         }
 
         val lastIndex = mPeopleList.size
@@ -95,11 +112,10 @@ class MainActivity : AppCompatActivity() {
         // This could happen and given that `mCurrEndCursor` can be null
         // setting this to `null` again would populate the list with repeated items.
         if (allPeople.pageInfo.endCursor == null)
-            return@coroutineScope
+            throw Exception("Get a null cursor")
 
         mCurrEndCursor = allPeople.pageInfo.endCursor
-        delay(5.seconds)
-        getAllPeople()
+        return@coroutineScope LoadResult.Successful
     }
 
     private fun launchPersonInfoActivity(id: String) {
